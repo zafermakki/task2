@@ -9,6 +9,7 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate,Link } from "react-router";
+import { loginUser } from "../../../utils/auth"; 
 
 
 import EmailIcon from "@mui/icons-material/Email";
@@ -38,8 +39,13 @@ const Login = () => {
     }),
 
     onSubmit: (values) => {
-      console.log("Submitted:", values);
-      navigate('/basic-interface')
+        const role = loginUser(values.email, values.password);
+
+        if (role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/basic-interface")
+        }
     },
   });
 

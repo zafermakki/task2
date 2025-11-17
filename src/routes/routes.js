@@ -6,6 +6,8 @@ import ForgetPassword from "../components/auth/forgetPassword/ForgetPassword";
 import Dashboard from "../components/dashboard/Dashboard";
 import BasicInterface from "../components/basicInterface/BasicInterface";
 
+import ProtectedRoute from "../protectedRoute/ProtectedRoute";
+
 export const routes = createBrowserRouter([
     {
         path: "/",
@@ -24,12 +26,21 @@ export const routes = createBrowserRouter([
         element: <ForgetPassword />
     },
     {
-        path: "/admin",
-        element: <Dashboard />
-    },
-    {
+        path: "/admin/dashboard",
+        element: (
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+    
+      {
         path: "/basic-interface",
-        element: <BasicInterface />
-    },
+        element: (
+          <ProtectedRoute allowedRoles={["user", "admin"]}>
+            <BasicInterface />
+          </ProtectedRoute>
+        ),
+      },
 
 ])
